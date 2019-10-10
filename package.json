@@ -105,5 +105,8 @@
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
+  },
+  "publishConfig": {
+    "registry": "https://nexus.almuk.santanderuk.corp/repository/npm-releases/"
   }
 }
