@@ -159,9 +159,10 @@ Since oidc-provider only comes with feature-less views and interaction handlers 
 those in, here is how oidc-provider allows you to do so:
 
 When oidc-provider cannot fulfill the authorization request for any of the possible reasons (missing
-user session, requested ACR not fulfilled, prompt requested, ...) it will resolve an `interactionUrl`
-(configurable) and redirect the User-Agent to that url. Before doing so it will save a short-lived
-session and dump its identifier into a cookie scoped to the resolved interaction path.
+user session, requested ACR not fulfilled, prompt requested, ...) it will resolve an the
+(configurable )`interactions.url` helper function and redirect the User-Agent to that url. Before
+doing so it will save a short-lived session and dump its identifier into a cookie scoped to the
+resolved interaction path.
 
 This session contains:
 
@@ -3685,5 +3686,5 @@ _**default value**_:
 [token-exchange]: https://tools.ietf.org/html/draft-ietf-oauth-token-exchange
 [defaults]: /lib/helpers/defaults.js
 [keygrip-module]: https://www.npmjs.com/package/keygrip
-[support-sponsor]: https://github.com/users/panva/sponsorship
+[support-sponsor]: https://github.com/sponsors/panva
 [sponsor-auth0]: https://auth0.com/overview?utm_source=GHsponsor&utm_medium=GHsponsor&utm_campaign=oidc-provider&utm_content=auth
