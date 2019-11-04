@@ -1,7 +1,5 @@
 # oidc-provider
 
-![build][actions-image] [![codecov][codecov-image]][codecov-url]
-
 oidc-provider is an OAuth 2.0 Authorization Server with [OpenID Connect][openid-connect] and many
 additional features and standards implemented.
 
@@ -42,7 +40,7 @@ The following draft specifications are implemented by oidc-provider.
 - [JSON Web Token (JWT) Profile for OAuth 2.0 Access Tokens - draft 02][jwt-at]
 - [JWT Response for OAuth Token Introspection - draft 08][jwt-introspection]
 - [JWT Secured Authorization Response Mode for OAuth 2.0 (JARM) - draft 02][jarm]
-- [OAuth 2.0 Demonstration of Proof-of-Possession at the Application Layer (DPoP) - individual draft 02][dpop]
+- [OAuth 2.0 Demonstration of Proof-of-Possession at the Application Layer (DPoP) - individual draft 03][dpop]
 - [OAuth 2.0 JWT Secured Authorization Request (JAR)][jar]
 - [OAuth 2.0 Mutual TLS Client Authentication and Certificate Bound Access Tokens (MTLS) - draft 17][mtls]
 - [OAuth 2.0 Pushed Authorization Requests - draft 00][par]
@@ -169,9 +167,6 @@ change the defined behavior.
 See the list of available emitted [event names](/docs/events.md) and their description.
 
 
-[actions-image]: https://github.com/panva/node-oidc-provider/workflows/Continuous%20Integration/badge.svg
-[codecov-image]: https://img.shields.io/codecov/c/github/panva/node-oidc-provider/master.svg
-[codecov-url]: https://codecov.io/gh/panva/node-oidc-provider
 [npm-url]: https://www.npmjs.com/package/oidc-provider
 [openid-certified-link]: https://openid.net/certification/
 [openid-connect]: https://openid.net/connect/
@@ -203,7 +198,7 @@ See the list of available emitted [event names](/docs/events.md) and their descr
 [suggest-feature]: https://github.com/panva/node-oidc-provider/issues/new?template=feature-request.md
 [bug]: https://github.com/panva/node-oidc-provider/issues/new?template=bug-report.md
 [mtls]: https://tools.ietf.org/html/draft-ietf-oauth-mtls-17
-[dpop]: https://tools.ietf.org/html/draft-fett-oauth-dpop-02
+[dpop]: https://tools.ietf.org/html/draft-fett-oauth-dpop-03
 [resource-indicators]: https://tools.ietf.org/html/draft-ietf-oauth-resource-indicators-07
 [jarm]: https://openid.net/specs/openid-financial-api-jarm-wd-02.html
 [jwt-at]: https://tools.ietf.org/html/draft-ietf-oauth-access-token-jwt-02

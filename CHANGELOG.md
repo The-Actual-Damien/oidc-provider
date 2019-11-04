@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [6.13.0](https://github.com/panva/node-oidc-provider/compare/v6.12.13...v6.13.0) (2019-10-31)
+
+
+### Features
+
+* update DPoP implementation to indivudal draft 03 ([a7f5d7d](https://github.com/panva/node-oidc-provider/commit/a7f5d7d5459da2ef113eff10767e40aa9dc5bf74))
+
+
+
+## [6.12.13](https://github.com/panva/node-oidc-provider/compare/v6.12.12...v6.12.13) (2019-10-24)
+
+
+### Bug Fixes
+
+* respect mountPath when rendering device flow html views ([74b434c](https://github.com/panva/node-oidc-provider/commit/74b434c627248c82ca9db5aed3a03f0acd0d7214)), closes [#561](https://github.com/panva/node-oidc-provider/issues/561)
+
+
+
+## [6.12.12](https://github.com/panva/node-oidc-provider/compare/v6.12.11...v6.12.12) (2019-10-23)
+
+
+### Bug Fixes
+
+* **typescript:** add findByUserCode to DeviceCode types ([df58cff](https://github.com/panva/node-oidc-provider/commit/df58cff1ac6856942e6da9bba0eaf66d9c216147))
+* remove registration access token when client is deleted ([e24ad4a](https://github.com/panva/node-oidc-provider/commit/e24ad4a0fa3c15b875c8aae1ba6fb7e5c1e185f0)), closes [#555](https://github.com/panva/node-oidc-provider/issues/555)
+
 ## [6.12.11](https://github.com/panva/node-oidc-provider/compare/v6.12.10...v6.12.11) (2019-10-20)
 
 

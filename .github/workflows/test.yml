@@ -21,14 +21,13 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-      - run: npm install
+      - run: npx npm-install-retry
       - run: npm run lint
 
   test:
     name: Node Tests + Coverage
     runs-on: ${{ matrix.os }}
     strategy:
-      fail-fast: false
       matrix:
         node-version:
           - 10.13.0
@@ -46,7 +45,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm install
+      - run: npx npm-install-retry
       - run: npm run coverage
         env:
           CI: true
@@ -57,7 +56,6 @@ jobs:
   oidc-conformance:
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: false
       matrix:
         script:
           - code
@@ -75,7 +73,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-      - run: npm install
+      - run: npx npm-install-retry
       - run: node certification/docker &
         env:
           ISSUER: https://172.17.0.1:3000
@@ -88,7 +86,7 @@ jobs:
         run: |
             cd oidc-provider-conformance-tests
             git checkout local-certification
-            npm install
+            npx npm-install-retry
             npm run ${{ matrix.script }}
 
   fapi-conformance:
@@ -108,7 +106,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-      - run: npm install
+      - run: npx npm-install-retry
       - run: node certification/fapi &
         env:
           ISSUER: https://172.17.0.1:3000
@@ -161,7 +159,6 @@ jobs:
       - oidc-conformance
       - fapi-conformance
     strategy:
-      fail-fast: false
       matrix:
         app:
           - radiant-refuge-93411
