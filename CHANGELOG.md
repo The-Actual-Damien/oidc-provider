@@ -2,6 +2,77 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [6.16.0](https://github.com/panva/node-oidc-provider/compare/v6.15.2...v6.16.0) (2019-11-16)
+
+
+### Features
+
+* add script tag nonce resolution helper for session management and wmrm ([#584](https://github.com/panva/node-oidc-provider/issues/584)) ([b32b8e6](https://github.com/panva/node-oidc-provider/commit/b32b8e63595d30771520473f7c1a821fb40337af)), closes [#583](https://github.com/panva/node-oidc-provider/issues/583)
+
+
+
+## [6.15.2](https://github.com/panva/node-oidc-provider/compare/v6.15.1...v6.15.2) (2019-11-15)
+
+
+### Bug Fixes
+
+* ensure BaseModel descendants have an exp property ([22cc547](https://github.com/panva/node-oidc-provider/commit/22cc547ffb45503cf2fc4357958325e0f5ed4b2f)), closes [#580](https://github.com/panva/node-oidc-provider/issues/580)
+
+
+
+## [6.15.1](https://github.com/panva/node-oidc-provider/compare/v6.15.0...v6.15.1) (2019-11-14)
+
+
+
+# [6.15.0](https://github.com/panva/node-oidc-provider/compare/v6.14.2...v6.15.0) (2019-11-14)
+
+
+### Bug Fixes
+
+* regression introduced in 58f7348 ([4738a8b](https://github.com/panva/node-oidc-provider/commit/4738a8b68c2cbc6c15a1352d2c22ebba7bda839a))
+
+
+### Features
+
+* add jwsreq Accept value to request_uri resolver ([cec4016](https://github.com/panva/node-oidc-provider/commit/cec4016e001d510e2ca861b4fa4f833d7ddb10a4))
+* expose client schema invalidate(err, code) to enable customization ([d672ee8](https://github.com/panva/node-oidc-provider/commit/d672ee83b2daccfc5ca6f59ca996425ed4e410f5))
+
+
+
+## [6.14.2](https://github.com/panva/node-oidc-provider/compare/v6.14.1...v6.14.2) (2019-11-10)
+
+
+### Bug Fixes
+
+* ignore httpOnly and domain configuration options for resume cookies ([952d68e](https://github.com/panva/node-oidc-provider/commit/952d68e3ea559b9b391c17d84573d7fad250f456)), closes [#574](https://github.com/panva/node-oidc-provider/issues/574)
+
+
+
+## [6.14.1](https://github.com/panva/node-oidc-provider/compare/v6.14.0...v6.14.1) (2019-11-07)
+
+
+### Bug Fixes
+
+* handle DPoP htu validation when mounted in express ([f34526c](https://github.com/panva/node-oidc-provider/commit/f34526c31cfdf5ea1111b36cf44c20afc1a53e76)), closes [#572](https://github.com/panva/node-oidc-provider/issues/572)
+* use sha512 for Ed25519 and shake256 for Ed448 ID Token _hash claims ([fd3c9e9](https://github.com/panva/node-oidc-provider/commit/fd3c9e9ca41107140054e6632081b1c685e2d767))
+
+
+
+# [6.14.0](https://github.com/panva/node-oidc-provider/compare/v6.13.0...v6.14.0) (2019-11-07)
+
+
+### Bug Fixes
+
+* autosubmit logout when there's no accountId in the session ([c6b1770](https://github.com/panva/node-oidc-provider/commit/c6b1770e68224b7463c1fa5c64199f0cd38131af)), closes [#566](https://github.com/panva/node-oidc-provider/issues/566)
+* omit *_hash ID Token claims if signed with "none" (code flow only) ([5c540c0](https://github.com/panva/node-oidc-provider/commit/5c540c06ae11bb5ae62eb6f14b7cac66d09f2fa5))
+
+
+### Features
+
+* add interaction<>session consistency checks ([018255e](https://github.com/panva/node-oidc-provider/commit/018255ed3547667464f1f2837561db593c33bfe8))
+
+
+
 # [6.13.0](https://github.com/panva/node-oidc-provider/compare/v6.12.13...v6.13.0) (2019-10-31)
 
 

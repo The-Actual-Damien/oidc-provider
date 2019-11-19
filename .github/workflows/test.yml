@@ -21,7 +21,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-      - run: npx npm-install-retry
+      - run: npx panva/npm-install-retry
       - run: npm run lint
 
   test:
@@ -45,7 +45,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npx npm-install-retry
+      - run: npx panva/npm-install-retry
       - run: npm run coverage
         env:
           CI: true
@@ -73,7 +73,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-      - run: npx npm-install-retry
+      - run: npx panva/npm-install-retry
       - run: node certification/docker &
         env:
           ISSUER: https://172.17.0.1:3000
@@ -86,7 +86,7 @@ jobs:
         run: |
             cd oidc-provider-conformance-tests
             git checkout local-certification
-            npx npm-install-retry
+            npx panva/npm-install-retry
             npm run ${{ matrix.script }}
 
   fapi-conformance:
@@ -100,13 +100,14 @@ jobs:
           cd conformance-suite
           git checkout release-v3.2.7
           sed -i -e 's/localhost/localhost.emobix.co.uk/g' src/main/resources/application.properties
+          sed -i -e 's/-B/-B -DskipTests=true/g' builder-compose.yml
           docker-compose -f builder-compose.yml run builder
           docker-compose -f docker-compose-dev.yml up -d
           while ! curl -skfail https://localhost.emobix.co.uk:8443/api/runner/available >/dev/null; do sleep 2; done
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-      - run: npx npm-install-retry
+      - run: npx panva/npm-install-retry
       - run: node certification/fapi &
         env:
           ISSUER: https://172.17.0.1:3000

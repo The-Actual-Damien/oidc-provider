@@ -1,6 +1,6 @@
 {
   "name": "@verified-id/oidc-provider",
-  "version": "1.0.0-beta.15",
+  "version": "1.0.0-beta.16",
   "description": "OAuth 2.0 Authorization Server implementation for Node.js with OpenID Connect",
   "keywords": [
     "auth",
@@ -33,6 +33,7 @@
     "lib",
     "types/index.d.ts"
   ],
+  "funding": "https://github.com/sponsors/panva",
   "main": "lib/index.js",
   "types": "types/index.d.ts",
   "scripts": {
@@ -57,7 +58,7 @@
     "lru-cache": "^5.1.1",
     "nanoid": "^2.1.6",
     "object-hash": "^2.0.0",
-    "oidc-token-hash": "^3.0.2",
+    "oidc-token-hash": "^4.0.0",
     "raw-body": "^2.4.1"
   },
   "devDependencies": {
@@ -66,10 +67,11 @@
     "base64url": "^3.0.1",
     "chai": "^4.2.0",
     "clear-module": "^4.0.0",
-    "dtslint": "^1.0.2",
+    "dtslint": "^2.0.0",
     "eslint": "^6.6.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
+    "express": "^4.17.1",
     "https-pem": "^2.0.0",
     "husky": "^3.0.9",
     "koa-body": "^4.1.1",
@@ -84,8 +86,7 @@
     "paseto": "^1.0.3",
     "sinon": "^7.5.0",
     "supertest": "^4.0.2",
-    "timekeeper": "^2.2.0",
-    "typescript": "^3.6.4"
+    "timekeeper": "^2.2.0"
   },
   "engines": {
     "node": "^10.13.0 || >=12.0.0"
