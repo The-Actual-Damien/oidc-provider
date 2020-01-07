@@ -2,6 +2,7 @@ const util = require('util');
 
 const { expect } = require('chai');
 const camelCase = require('lodash/camelCase');
+const merge = require('lodash/merge');
 const omit = require('lodash/omit');
 const pull = require('lodash/pull');
 const cloneDeep = require('lodash/cloneDeep');
@@ -21,17 +22,18 @@ describe('Client metadata validation', () => {
     DefaultProvider = new Provider('http://localhost', {
       jwks: global.keystore.toJWKS(true),
       whitelistedJWA: cloneDeep(whitelistedJWA),
+      features: { secp256k1: { enabled: true } },
     });
   });
 
   function addClient(meta, configuration) {
     let provider;
     if (configuration) {
-      provider = new Provider('http://localhost', ({
+      provider = new Provider('http://localhost', merge({
         jwks: global.keystore.toJWKS(true),
         whitelistedJWA: cloneDeep(whitelistedJWA),
-        ...configuration,
-      }));
+        features: { secp256k1: { enabled: true } },
+      }, configuration));
     } else {
       provider = DefaultProvider;
     }
@@ -189,7 +191,7 @@ describe('Client metadata validation', () => {
     allows(this.title, 'native', {
       redirect_uris: ['com.example.myapp:/localhost/redirect'],
     });
-    rejects(this.title, 'foobar', 'application_type must be one of [native,web]');
+    rejects(this.title, 'foobar', "application_type must be 'native' or 'web'");
   });
 
   context('client_id', function () {
@@ -228,8 +230,10 @@ describe('Client metadata validation', () => {
     });
     allows(this.title, acrValues, undefined, { acrValues });
     rejects(this.title, [123], /must only contain strings$/);
-    rejects(this.title, ['not a member']);
-    rejects(this.title, ['not a member', '1']);
+    rejects(this.title, ['not a member'], 'default_acr_values must be empty (no values are allowed)');
+    rejects(this.title, ['not a member', '1', 'default_acr_values must be empty (no values are allowed)']);
+    rejects(this.title, ['not a member'], "default_acr_values can only contain '0', '1', or '2'", undefined, { acrValues });
+    rejects(this.title, ['not a member', '1'], "default_acr_values can only contain '0', '1', or '2'", undefined, { acrValues });
   });
 
   context('default_max_age', function () {
@@ -486,6 +490,10 @@ describe('Client metadata validation', () => {
     context(endpointAuthMethodProperty, function () {
       defaultsTo(this.title, 'client_secret_basic', undefined, configuration);
       mustBeString(this.title, undefined, undefined, configuration);
+      rejects(this.title, 'foo', `${endpointAuthMethodProperty} must not be provided (no values are allowed)`, undefined, {
+        ...configuration,
+        [`${endpointAuthMethodProperty.split('_')[0]}EndpointAuthMethods`]: [],
+      });
 
       [
         'client_secret_basic', 'client_secret_jwt', 'client_secret_post', 'private_key_jwt', 'tls_client_auth',
@@ -544,13 +552,13 @@ describe('Client metadata validation', () => {
           ...additional,
         }, configuration);
 
-        rejects(this.title, `${rejected}256`, new RegExp(`^${endpointAuthSigningAlgProperty} must be one of`), {
+        rejects(this.title, `${rejected}256`, new RegExp(`^${endpointAuthSigningAlgProperty} must be`), {
           [endpointAuthMethodProperty]: method,
           ...additional,
         }, configuration);
 
         const confProperty = `${camelCase(endpointAuthSigningAlgProperty)}Values`;
-        rejects(this.title, `${accepted}384`, new RegExp(`^${endpointAuthSigningAlgProperty} must be one of`), {
+        rejects(this.title, `${accepted}384`, new RegExp(`^${endpointAuthSigningAlgProperty} must be`), {
           [endpointAuthMethodProperty]: method,
           ...additional,
         }, {
@@ -1012,6 +1020,7 @@ describe('Client metadata validation', () => {
       defaultsTo(this.title, undefined);
       mustBeString(this.title, undefined, undefined, configuration);
       mustBeUri(this.title, ['http', 'https'], configuration);
+      rejects(this.title, 'https://rp.example.com/bcl', 'id_token_signed_response_alg must not be "none" when backchannel_logout_uri is used', { id_token_signed_response_alg: 'none' }, configuration);
     });
 
     context('backchannel_logout_session_required', function () {

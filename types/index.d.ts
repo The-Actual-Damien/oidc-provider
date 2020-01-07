@@ -16,8 +16,9 @@ import * as Koa from 'koa';
 
 export {};
 
+export type CanBePromise<T> = Promise<T> | T;
 export type RetryFunction = (retry: number, error: Error) => number;
-export type FindAccount = (ctx: KoaContextWithOIDC, sub: string, token?: AuthorizationCode | AccessToken | DeviceCode) => Promise<Account> | Account;
+export type FindAccount = (ctx: KoaContextWithOIDC, sub: string, token?: AuthorizationCode | AccessToken | DeviceCode) => CanBePromise<Account>;
 export type TokenFormat = 'opaque' | 'jwt' | 'jwt-ietf' | 'paseto';
 
 export type AccessTokenFormatFunction = (ctx: KoaContextWithOIDC, token: AccessToken) => TokenFormat;
@@ -711,10 +712,11 @@ export interface AccountClaims {
 
 export interface Account {
   accountId: string;
-  claims: (use: string, scope: string, claims: { [key: string]: null | ClaimsParameterMember }, rejected: string[]) => Promise<AccountClaims> | AccountClaims;
+  claims: (use: string, scope: string, claims: { [key: string]: null | ClaimsParameterMember }, rejected: string[]) => CanBePromise<AccountClaims>;
+  [key: string]: any;
 }
 
-export type RotateRegistrationAccessTokenFunction = (ctx: KoaContextWithOIDC) => Promise<boolean> | boolean;
+export type RotateRegistrationAccessTokenFunction = (ctx: KoaContextWithOIDC) => CanBePromise<boolean>;
 
 export interface ErrorOut {
   error: string;
@@ -845,27 +847,43 @@ export interface Configuration {
   extraParams?: string[];
 
   features?: {
-    devInteractions?: { enabled?: boolean };
+    devInteractions?: {
+      enabled?: boolean
+    };
 
-    claimsParameter?: { enabled?: boolean };
+    claimsParameter?: {
+      enabled?: boolean
+    };
 
-    clientCredentials?: { enabled?: boolean };
+    clientCredentials?: {
+      enabled?: boolean
+    };
 
-    introspection?: { enabled?: boolean };
+    introspection?: {
+      enabled?: boolean
+    };
 
-    revocation?: { enabled?: boolean };
+    revocation?: {
+      enabled?: boolean
+    };
 
-    userinfo?: { enabled?: boolean };
+    userinfo?: {
+      enabled?: boolean
+    };
 
-    jwtUserinfo?: { enabled?: boolean };
+    jwtUserinfo?: {
+      enabled?: boolean
+    };
 
-    encryption?: { enabled?: boolean };
+    encryption?: {
+      enabled?: boolean
+    };
 
     registration?: {
       enabled?: boolean;
       initialAccessToken?: boolean | string;
       policies?: {
-        [key: string]: (ctx: KoaContextWithOIDC, metadata: ClientMetadata) => Promise<void | undefined> | void | undefined;
+        [key: string]: (ctx: KoaContextWithOIDC, metadata: ClientMetadata) => CanBePromise<void | undefined>;
       };
       idFactory?: () => string;
       secretFactory?: () => string;
@@ -881,9 +899,9 @@ export interface Configuration {
       charset?: 'base-20' | 'digits';
       mask?: string;
       deviceInfo?: (ctx: KoaContextWithOIDC) => AnyObject;
-      userCodeInputSource?: (ctx: KoaContextWithOIDC, form: string, out?: ErrorOut, err?: errors.OIDCProviderError | Error) => Promise<void | undefined> | void | undefined;
-      userCodeConfirmSource?: (ctx: KoaContextWithOIDC, form: string, client: Client, deviceInfo: AnyObject, userCode: string) => Promise<void | undefined> | void | undefined;
-      successSource?: (ctx: KoaContextWithOIDC) => Promise<void | undefined> | void | undefined;
+      userCodeInputSource?: (ctx: KoaContextWithOIDC, form: string, out?: ErrorOut, err?: errors.OIDCProviderError | Error) => CanBePromise<void | undefined>;
+      userCodeConfirmSource?: (ctx: KoaContextWithOIDC, form: string, client: Client, deviceInfo: AnyObject, userCode: string) => CanBePromise<void | undefined>;
+      successSource?: (ctx: KoaContextWithOIDC) => CanBePromise<void | undefined>;
     };
 
     requestObjects?: {
@@ -895,27 +913,64 @@ export interface Configuration {
         whitelist?: string[] | Set<string>;
       };
     };
-    dPoP?: { enabled?: boolean, iatTolerance?: number, ack?: 'id-03' },
 
-    sessionManagement?: { enabled?: boolean, keepHeaders?: boolean, ack?: 28, scriptNonce?: (ctx: KoaContextWithOIDC) => string },
+    dPoP?: {
+      enabled?: boolean,
+      iatTolerance?: number,
+      ack?: 'id-03' | 'individual-draft-03'
+    },
 
-    backchannelLogout?: { enabled?: boolean, ack?: 4 },
+    secp256k1?: {
+      enabled?: boolean,
+      ack?: 'draft-03'
+    },
 
-    ietfJWTAccessTokenProfile?: { enabled?: boolean, ack?: 2 },
+    sessionManagement?: {
+      enabled?: boolean,
+      keepHeaders?: boolean,
+      ack?: 28 | 'draft-28',
+      scriptNonce?: (ctx: KoaContextWithOIDC) => string
+    },
 
-    fapiRW?: { enabled?: boolean, ack?: 'id02-rev.3' },
+    backchannelLogout?: {
+      enabled?: boolean,
+      ack?: 4 | 'draft-04'
+    },
 
-    webMessageResponseMode?: { enabled?: boolean, ack?: 'id-00', scriptNonce?: (ctx: KoaContextWithOIDC) => string },
+    ietfJWTAccessTokenProfile?: {
+      enabled?: boolean,
+      ack?: 2 | 'draft-02' | 'draft-03'
+    },
 
-    jwtIntrospection?: { enabled?: boolean, ack?: 8 },
+    fapiRW?: {
+      enabled?: boolean,
+      ack?: 'id02-rev.3' | 'implementers-draft-02'
+    },
 
-    jwtResponseModes?: { enabled?: boolean, ack?: 1 | 2 },
+    webMessageResponseMode?: {
+      enabled?: boolean,
+      ack?: 'id-00' | 'individual-draft-00',
+      scriptNonce?: (ctx: KoaContextWithOIDC) => string
+    },
 
-    pushedAuthorizationRequests?: { enabled?: boolean, ack?: 0 },
+    jwtIntrospection?: {
+      enabled?: boolean,
+      ack?: 8 | 'draft-08'
+    },
+
+    jwtResponseModes?: {
+      enabled?: boolean,
+      ack?: 1 | 2 | 'draft-02'
+    },
+
+    pushedAuthorizationRequests?: {
+      enabled?: boolean,
+      ack?: 0 | 'individual-draft-01' | 'draft-00'
+    },
 
     mTLS?: {
       enabled?: boolean;
-      ack?: '15-rc.1' | 16 | 17;
+      ack?: '15-rc.1' | 16 | 17 | 'draft-17';
       certificateBoundAccessTokens?: boolean;
       selfSignedTlsClientAuth?: boolean;
       tlsClientAuth?: boolean;
@@ -926,36 +981,35 @@ export interface Configuration {
 
     resourceIndicators?: {
       enabled?: boolean;
-      ack?: 2 | 3 | 4 | 5 | 6 | 7;
-      allowedPolicy?: (ctx: KoaContextWithOIDC, resources: string | string[], client: Client) => Promise<boolean> | boolean;
+      ack?: 2 | 3 | 4 | 5 | 6 | 7 | 'draft-07';
+      allowedPolicy?: (ctx: KoaContextWithOIDC, resources: string | string[], client: Client) => CanBePromise<boolean>;
     };
 
     frontchannelLogout?: {
       enabled?: boolean;
-      ack?: 2;
-      logoutPendingSource?: (ctx: KoaContextWithOIDC, frames: string[], postLogoutRedirectUri?: string) => Promise<void | undefined> | void | undefined;
+      ack?: 2 | 'draft-02';
+      logoutPendingSource?: (ctx: KoaContextWithOIDC, frames: string[], postLogoutRedirectUri?: string) => CanBePromise<void | undefined>;
     };
   };
 
-  extraAccessTokenClaims?: (ctx: KoaContextWithOIDC, token: AccessToken | ClientCredentials) => Promise<AnyObject> | AnyObject | Promise<void | undefined> | void | undefined;
+  extraAccessTokenClaims?: (ctx: KoaContextWithOIDC, token: AccessToken | ClientCredentials) => CanBePromise<AnyObject | void | undefined> ;
 
   formats?: {
     AccessToken?: AccessTokenFormatFunction | TokenFormat;
     ClientCredentials?: ClientCredentialsFormatFunction | TokenFormat;
-    // TODO: can't seem to get a pass on async when | AsymmetricSigningAlgoritm is also possible return;
-    jwtAccessTokenSigningAlg?: (ctx: KoaContextWithOIDC, token: AccessToken | ClientCredentials, client: Client) => Promise<AsymmetricSigningAlgoritm>;
+    jwtAccessTokenSigningAlg?: (ctx: KoaContextWithOIDC, token: AccessToken | ClientCredentials, client: Client) => CanBePromise<AsymmetricSigningAlgoritm>;
     customizers?: {
-      jwt?: (ctx: KoaContextWithOIDC, token: AccessToken | ClientCredentials, parts: JWTStructured) => JWTStructured;
-      'jwt-ietf'?: (ctx: KoaContextWithOIDC, token: AccessToken | ClientCredentials, parts: JWTStructured) => JWTStructured;
-      paseto?: (ctx: KoaContextWithOIDC, token: AccessToken | ClientCredentials, parts: PASETOStructured) => PASETOStructured;
+      jwt?: (ctx: KoaContextWithOIDC, token: AccessToken | ClientCredentials, parts: JWTStructured) => Promise<JWTStructured> | JWTStructured;
+      'jwt-ietf'?: (ctx: KoaContextWithOIDC, token: AccessToken | ClientCredentials, parts: JWTStructured) => Promise<JWTStructured> | JWTStructured;
+      paseto?: (ctx: KoaContextWithOIDC, token: AccessToken | ClientCredentials, parts: PASETOStructured) => Promise<PASETOStructured> | PASETOStructured;
     };
   };
 
   httpOptions?: (options: HttpRequestOptions) => HttpRequestOptions;
 
-  expiresWithSession?: (ctx: KoaContextWithOIDC, token: AccessToken | AuthorizationCode | DeviceCode) => Promise<boolean> | boolean;
+  expiresWithSession?: (ctx: KoaContextWithOIDC, token: AccessToken | AuthorizationCode | DeviceCode) => CanBePromise<boolean>;
 
-  issueRefreshToken?: (ctx: KoaContextWithOIDC, client: Client, code: AuthorizationCode | DeviceCode) => Promise<boolean> | boolean;
+  issueRefreshToken?: (ctx: KoaContextWithOIDC, client: Client, code: AuthorizationCode | DeviceCode) => CanBePromise<boolean>;
 
   jwks?: jose.JSONWebKeySet;
 
@@ -984,7 +1038,7 @@ export interface Configuration {
 
   subjectTypes?: SubjectTypes[];
 
-  pairwiseIdentifier?: (ctx: KoaContextWithOIDC, accountId: string, client: Client) => Promise<string> | string;
+  pairwiseIdentifier?: (ctx: KoaContextWithOIDC, accountId: string, client: Client) => CanBePromise<string>;
 
   tokenEndpointAuthMethods?: ClientAuthMethod[];
 
@@ -1009,17 +1063,17 @@ export interface Configuration {
     validator?: (key: string, value: any, metadata: ClientMetadata, ctx: KoaContextWithOIDC) => void | undefined;
   };
 
-  postLogoutSuccessSource?: (ctx: KoaContextWithOIDC) => Promise<void | undefined> | void | undefined;
+  postLogoutSuccessSource?: (ctx: KoaContextWithOIDC) => CanBePromise<void | undefined>;
 
-  rotateRefreshToken?: (ctx: KoaContextWithOIDC) => Promise<boolean> | boolean;
+  rotateRefreshToken?: ((ctx: KoaContextWithOIDC) => CanBePromise<boolean>) | boolean;
 
-  logoutSource?: (ctx: KoaContextWithOIDC, form: string) => Promise<void | undefined> | void | undefined;
+  logoutSource?: (ctx: KoaContextWithOIDC, form: string) => CanBePromise<void | undefined>;
 
-  renderError?: (ctx: KoaContextWithOIDC, out: ErrorOut, error: errors.OIDCProviderError | Error) => Promise<void | undefined> | void | undefined;
+  renderError?: (ctx: KoaContextWithOIDC, out: ErrorOut, error: errors.OIDCProviderError | Error) => CanBePromise<void | undefined>;
 
   interactions?: {
     policy?: interactionPolicy.Prompt[];
-    url?: (ctx: KoaContextWithOIDC, interaction: Interaction) => Promise<string> | string;
+    url?: (ctx: KoaContextWithOIDC, interaction: Interaction) => CanBePromise<string>;
   };
 
   audiences?: (
@@ -1027,7 +1081,7 @@ export interface Configuration {
     sub: string | undefined,
     token: AccessToken | ClientCredentials,
     use: 'access_token' | 'client_credentials'
-  ) => Promise<false | string | string[]> | false | string | string[];
+  ) => CanBePromise<false | string | string[]>;
 
   findAccount?: FindAccount;
 
@@ -1055,7 +1109,7 @@ export interface Configuration {
 }
 
 export type NoneAlg = 'none';
-export type AsymmetricSigningAlgoritm = 'PS256' | 'PS384' | 'PS512' | 'ES256' | 'ES384' | 'ES512' | 'EdDSA' | 'RS256' | 'RS384' | 'RS512';
+export type AsymmetricSigningAlgoritm = 'PS256' | 'PS384' | 'PS512' | 'ES256' | 'ES256K' | 'ES384' | 'ES512' | 'EdDSA' | 'RS256' | 'RS384' | 'RS512';
 export type SymmetricSigningAlgorithm = 'HS256' | 'HS384' | 'HS512';
 export type SigningAlgorithm = AsymmetricSigningAlgoritm | SymmetricSigningAlgorithm;
 export type SigningAlgorithmWithNone = AsymmetricSigningAlgoritm | SymmetricSigningAlgorithm | NoneAlg;
@@ -1130,7 +1184,7 @@ export class Provider extends events.EventEmitter {
 
   registerGrantType(
     name: string,
-    handler: (ctx: KoaContextWithOIDC, next: () => Promise<void>) => Promise<void> | void,
+    handler: (ctx: KoaContextWithOIDC, next: () => Promise<void>) => CanBePromise<void>,
     params?: string | string[] | Set<string>,
     dupes?: string | string[] | Set<string>
   ): void;
@@ -1442,26 +1496,26 @@ export namespace interactionPolicy {
       reason: string,
       description: string,
       error: string,
-      check: (ctx: KoaContextWithOIDC) => Promise<boolean> | boolean,
-      details?: (ctx: KoaContextWithOIDC) => Promise<AnyObject> | AnyObject
+      check: (ctx: KoaContextWithOIDC) => CanBePromise<boolean>,
+      details?: (ctx: KoaContextWithOIDC) => CanBePromise<AnyObject>
     );
     constructor(
       reason: string,
       description: string,
-      check: (ctx: KoaContextWithOIDC) => Promise<boolean> | boolean,
-      details?: (ctx: KoaContextWithOIDC) => Promise<AnyObject> | AnyObject
+      check: (ctx: KoaContextWithOIDC) => CanBePromise<boolean>,
+      details?: (ctx: KoaContextWithOIDC) => CanBePromise<AnyObject>
     );
 
     reason: string;
     description: string;
     error: string;
-    details: (ctx: KoaContextWithOIDC) => Promise<AnyObject> | AnyObject;
-    check: (ctx: KoaContextWithOIDC) => Promise<boolean> | boolean;
+    details: (ctx: KoaContextWithOIDC) => CanBePromise<AnyObject>;
+    check: (ctx: KoaContextWithOIDC) => CanBePromise<boolean>;
   }
 
   class Prompt {
     constructor(info: { name: string, requestable?: boolean }, ...checks: Check[]);
-    constructor(info: { name: string, requestable?: boolean }, details: (ctx: KoaContextWithOIDC) => Promise<AnyObject> | AnyObject, ...checks: Check[]);
+    constructor(info: { name: string, requestable?: boolean }, details: (ctx: KoaContextWithOIDC) => CanBePromise<AnyObject>, ...checks: Check[]);
 
     name: string;
     requestable: boolean;

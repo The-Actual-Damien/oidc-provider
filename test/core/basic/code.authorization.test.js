@@ -161,7 +161,7 @@ describe('BASIC code', () => {
           .expect(auth.validateError('access_denied'));
 
         expect(spy.calledOnce).to.be.true;
-        expect(spy.args[0][1]).to.have.property('error_detail', 'request resolved without requesting interactions but no account id was resolved');
+        expect(spy.args[0][1]).to.have.property('error_detail', 'authorization request resolved without requesting interactions but no account id was resolved');
       });
 
       it('no scope was resolved and no interactions requested', async function () {
@@ -181,7 +181,7 @@ describe('BASIC code', () => {
           .expect(auth.validateError('access_denied'));
 
         expect(spy.calledOnce).to.be.true;
-        expect(spy.args[0][1]).to.have.property('error_detail', 'request resolved without requesting interactions but scope was granted');
+        expect(spy.args[0][1]).to.have.property('error_detail', 'authorization request resolved without requesting interactions but no scope was granted');
       });
     });
 
@@ -872,7 +872,7 @@ describe('BASIC code', () => {
           .expect(auth.validateState)
           .expect(auth.validateClientLocation)
           .expect(auth.validateError('unauthorized_client'))
-          .expect(auth.validateErrorDescription('response_type not allowed for this client'));
+          .expect(auth.validateErrorDescription('requested response_type is not allowed for this client'));
       });
 
       it('unsupported response type validation runs before oidc required params', function () {

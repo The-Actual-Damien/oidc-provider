@@ -37,18 +37,19 @@ enabled by default, check the configuration section on how to enable them.
 - [RFC8628 - OAuth 2.0 Device Authorization Grant (Device Flow)][device-flow]
 
 The following draft specifications are implemented by oidc-provider.
-- [JSON Web Token (JWT) Profile for OAuth 2.0 Access Tokens - draft 02][jwt-at]
+- [JSON Web Token (JWT) Profile for OAuth 2.0 Access Tokens - draft 03][jwt-at]
 - [JWT Response for OAuth Token Introspection - draft 08][jwt-introspection]
 - [JWT Secured Authorization Response Mode for OAuth 2.0 (JARM) - draft 02][jarm]
 - [OAuth 2.0 Demonstration of Proof-of-Possession at the Application Layer (DPoP) - individual draft 03][dpop]
 - [OAuth 2.0 JWT Secured Authorization Request (JAR)][jar]
 - [OAuth 2.0 Mutual TLS Client Authentication and Certificate Bound Access Tokens (MTLS) - draft 17][mtls]
 - [OAuth 2.0 Pushed Authorization Requests - draft 00][par]
-- [OAuth 2.0 Resource Indicators - draft 07][resource-indicators]
+- [OAuth 2.0 Resource Indicators - draft 08][resource-indicators]
 - [OAuth 2.0 Web Message Response Mode - individual draft 00][wmrm]
 - [OpenID Connect Back-Channel Logout 1.0 - draft 04][backchannel-logout]
 - [OpenID Connect Front-Channel Logout 1.0 - draft 02][frontchannel-logout]
 - [OpenID Connect Session Management 1.0 - draft 28][session-management]
+- [JWS ES256K / JWK secp256k1 JOSE support - draft 03][secp256k1]
 
 Updates to draft specification versions are released as MINOR library versions,
 if you utilize these specification implementations consider using the tilde `~` operator in your
@@ -89,8 +90,9 @@ Also be sure to check the available configuration docs section.
 
 ## [Documentation](/docs/README.md) & Configuration
 
-oidc-provider allows to be extended and configured in various ways to fit a variety of uses. See
-the [documentation](/docs/README.md).
+oidc-provider can be mounted to existing connect, express, fastify, hapi, or koa applications, see
+[how](/docs/README.md#mounting-oidc-provider). The provider allows to be extended and configured in
+various ways to fit a variety of uses. See the [documentation](/docs/README.md).
 
 ```js
 const { Provider } = require('oidc-provider');
@@ -114,33 +116,6 @@ oidc.app
 
 // or just expose a server standalone, see /examples/standalone.js
 const server = oidc.listen(3000, () => {
-  console.log('oidc-provider listening on port 3000, check http://localhost:3000/.well-known/openid-configuration');
-});
-```
-
-```ts
-import * as oidc from 'oidc-provider';
-
-const configuration = {
-  // ... see available options /docs
-  clients: [{
-    client_id: 'foo',
-    client_secret: 'bar',
-    redirect_uris: ['http://lvh.me:8080/cb'],
-    // + other client properties
-  }],
-};
-
-const provider = new oidc.Provider('http://localhost:3000', configuration);
-
-// express/nodejs style application callback (req, res, next) for use with express apps, see /examples/express.js
-provider.callback
-
-// koa application for use with koa apps, see /examples/koa.js
-provider.app
-
-// or just expose a server standalone, see /examples/standalone.js
-const server = provider.listen(3000, () => {
   console.log('oidc-provider listening on port 3000, check http://localhost:3000/.well-known/openid-configuration');
 });
 ```
@@ -200,8 +175,9 @@ See the list of available emitted [event names](/docs/events.md) and their descr
 [bug]: https://github.com/panva/node-oidc-provider/issues/new?template=bug-report.md
 [mtls]: https://tools.ietf.org/html/draft-ietf-oauth-mtls-17
 [dpop]: https://tools.ietf.org/html/draft-fett-oauth-dpop-03
-[resource-indicators]: https://tools.ietf.org/html/draft-ietf-oauth-resource-indicators-07
+[resource-indicators]: https://tools.ietf.org/html/draft-ietf-oauth-resource-indicators-08
 [jarm]: https://openid.net/specs/openid-financial-api-jarm-wd-02.html
-[jwt-at]: https://tools.ietf.org/html/draft-ietf-oauth-access-token-jwt-02
+[jwt-at]: https://tools.ietf.org/html/draft-ietf-oauth-access-token-jwt-03
 [support-sponsor]: https://github.com/sponsors/panva
-[par]: https://tools.ietf.org/html/draft-lodderstedt-oauth-par-00
+[par]: https://tools.ietf.org/html/draft-ietf-oauth-par-00
+[secp256k1]: https://tools.ietf.org/html/draft-ietf-cose-webauthn-algorithms-03

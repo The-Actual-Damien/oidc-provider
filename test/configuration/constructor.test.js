@@ -155,7 +155,32 @@ describe('Provider configuration', () => {
     it(`validates configuration ${prop} members`, () => {
       expect(() => {
         new Provider('http://localhost:3000', { [prop]: ['foo'] });
-      }).to.throw(`only supported ${prop} are [none,client_secret_basic,client_secret_jwt,client_secret_post,private_key_jwt]`);
+      }).to.throw(`only supported ${prop} are 'none', 'client_secret_basic', 'client_secret_jwt', 'client_secret_post', and 'private_key_jwt'`);
+    });
+  });
+
+  describe('secp256k1', () => {
+    it('checks that secp256k1 is enabled before enabling ES256K algorithm is supported', () => {
+      expect(() => {
+        new Provider('http://localhost:3000', {
+          whitelistedJWA: {
+            requestObjectSigningAlgValues: ['ES256K'],
+          },
+        });
+      }).to.throw('`features.secp256k1` must be enabled before enabling support for ES256K');
+
+      expect(() => {
+        new Provider('http://localhost:3000', {
+          whitelistedJWA: {
+            requestObjectSigningAlgValues: ['ES256K'],
+          },
+          features: {
+            secp256k1: {
+              enabled: true,
+            },
+          },
+        });
+      }).not.to.throw();
     });
   });
 

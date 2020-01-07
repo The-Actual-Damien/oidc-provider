@@ -1,7 +1,42 @@
 // tslint:disable-next-line:no-relative-import-in-test
-import { Provider, interactionPolicy } from './index.d';
+import { Provider, interactionPolicy, AsymmetricSigningAlgoritm } from './index.d';
 
 new Provider('https://op.example.com');
+
+new Provider('https://op.example.com', {
+  rotateRefreshToken: true,
+  formats: {
+    jwtAccessTokenSigningAlg() {
+      return 'ES384';
+    },
+    customizers: {
+      async jwt(ctx, token, parts) {
+        ctx.oidc.issuer.substring(0);
+        token.iat.toFixed();
+        parts.header = { foo: 'bar' };
+        parts.payload.foo = 'bar';
+        return parts;
+      },
+      async 'jwt-ietf'(ctx, token, parts) {
+        ctx.oidc.issuer.substring(0);
+        token.iat.toFixed();
+        parts.header = { foo: 'bar' };
+        parts.payload.foo = 'bar';
+        return parts;
+      },
+      async paseto(ctx, token, parts) {
+        ctx.oidc.issuer.substring(0);
+        token.iat.toFixed();
+        parts.footer = { foo: 'bar' };
+        parts.footer = Buffer.from('foo');
+        parts.footer = undefined;
+        parts.footer = 'foo';
+        parts.payload.foo = 'bar';
+        return parts;
+      },
+    },
+  },
+});
 
 const provider = new Provider('https://op.example.com', {
   acrValues: ['urn:example:bronze'],
@@ -87,7 +122,7 @@ const provider = new Provider('https://op.example.com', {
       clientCredentials.iat.toFixed();
       return 'opaque';
     },
-    async jwtAccessTokenSigningAlg(ctx, token, client) {
+    async jwtAccessTokenSigningAlg(ctx, token, client): Promise<AsymmetricSigningAlgoritm> {
       ctx.oidc.issuer.substring(0);
       token.iat.toFixed();
       client.clientId.substring(0);
@@ -286,6 +321,7 @@ const provider = new Provider('https://op.example.com', {
     jwtIntrospection: { enabled: false, ack: 8 },
     jwtResponseModes: { enabled: false, ack: 2 },
     pushedAuthorizationRequests: { enabled: false, ack: 0 },
+    secp256k1: { enabled: false, ack: 'draft-03' },
     registration: {
       enabled: true,
       initialAccessToken: true,

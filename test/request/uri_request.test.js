@@ -1,7 +1,7 @@
 const { parse } = require('url');
 
 const jose = require('jose');
-const sinon = require('sinon');
+const sinon = require('sinon').createSandbox();
 const nock = require('nock');
 const { expect } = require('chai');
 
@@ -207,14 +207,7 @@ describe('request Uri features', () => {
       });
 
       describe('urn support', () => {
-        afterEach(function () {
-          if (this.provider.Client.prototype.requestUriAllowed.restore) {
-            this.provider.Client.prototype.requestUriAllowed.restore();
-          }
-          if (this.provider.requestUriCache.resolveUrn.restore) {
-            this.provider.requestUriCache.resolveUrn.restore();
-          }
-        });
+        afterEach(sinon.restore);
 
         it('urn cannot be registered and will fail on client#requestUriAllowed()', function () {
           const spy = sinon.spy();
@@ -746,6 +739,8 @@ describe('request Uri features', () => {
     });
 
     it('respects provided response max-age header', async function () {
+      this.retries(1);
+
       const cache = new RequestUriCache(this.provider);
       nock('https://client.example.com')
         .get('/cachedRequest')
@@ -756,10 +751,12 @@ describe('request Uri features', () => {
       await cache.resolveWebUri('https://client.example.com/cachedRequest');
       const dump = cache.cache.dump();
       expect(dump).to.have.lengthOf(1);
-      expect((dump[0].e - Date.now()) / 1000 | 0).to.be.within(4, 5); // eslint-disable-line no-bitwise, max-len
+      expect((dump[0].e - Date.now()) / 1000 | 0).to.be.closeTo(5, 1); // eslint-disable-line no-bitwise, max-len
     });
 
     it('respects provided response expires header', async function () {
+      this.retries(1);
+
       const cache = new RequestUriCache(this.provider);
       nock('https://client.example.com')
         .get('/cachedRequest')
@@ -770,7 +767,7 @@ describe('request Uri features', () => {
       await cache.resolveWebUri('https://client.example.com/cachedRequest');
       const dump = cache.cache.dump();
       expect(dump).to.have.lengthOf(1);
-      expect((dump[0].e - Date.now()) / 1000 | 0).to.be.within(4, 5); // eslint-disable-line no-bitwise, max-len
+      expect((dump[0].e - Date.now()) / 1000 | 0).to.be.closeTo(5, 1); // eslint-disable-line no-bitwise, max-len
     });
   });
 });

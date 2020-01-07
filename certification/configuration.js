@@ -61,6 +61,7 @@ module.exports = {
       'nickname', 'picture', 'preferred_username', 'profile', 'updated_at', 'website', 'zoneinfo'],
   },
   features: {
+    secp256k1: { enabled: true },
     backchannelLogout: { enabled: true },
     devInteractions: { enabled: false },
     mTLS: {
@@ -87,6 +88,7 @@ module.exports = {
     frontchannelLogout: { enabled: true },
     introspection: { enabled: true },
     registration: { enabled: true },
+    registrationManagement: { enabled: true, rotateRegistrationAccessToken: true },
     jwtResponseModes: { enabled: true },
     pushedAuthorizationRequests: { enabled: true },
     requestObjects: {
