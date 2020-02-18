@@ -244,8 +244,8 @@ router.post('/interaction/:uid/login', async (ctx, next) => {
 
 ## Custom Grant Types
 oidc-provider comes with the basic grants implemented, but you can register your own grant types,
-for example to implement an [OAuth 2.0 Token Exchange][token-exchange]. You can check the standard
-grant factories [here](/lib/actions/grants).
+for example to implement an [OAuth 2.0 Token Exchange](https://tools.ietf.org/html/rfc8693). You can
+check the standard grant factories [here](/lib/actions/grants).
 
 ```js
 const parameters = [
@@ -544,7 +544,7 @@ See [/lib/adapters/memory_adapter.js](/lib/adapters/memory_adapter.js)
 
 ### clients
 
-Array of objects representing client metadata. These clients are referred to as static, they don't expire, never reload, are always available. If the client metadata in this array is invalid the Provider instantiation will fail with an error. In addition to these clients the provider will use your adapter's `find` method when a non-cached client_id is encountered. If you only wish to support statically configured clients and no dynamic registration then make it so that your adapter resolves client find calls with a falsy value (e.g. `return Promise.resolve()`) and don't take unnecessary DB trips.   
+Array of objects representing client metadata. These clients are referred to as static, they don't expire, never reload, are always available. In addition to these clients the provider will use your adapter's `find` method when a non-static client_id is encountered. If you only wish to support statically configured clients and no dynamic registration then make it so that your adapter resolves client find calls with a falsy value (e.g. `return Promise.resolve()`) and don't take unnecessary DB trips.   
  Client's metadata is validated as defined by the respective specification they've been defined in.   
   
 
@@ -830,17 +830,17 @@ async function successSource(ctx) {
     clientId, clientName, clientUri, initiateLoginUri, logoUri, policyUri, tosUri,
   } = ctx.oidc.client;
   ctx.body = `<!DOCTYPE html>
-ead>
-<title>Sign-in Success</title>
-<style>/* css and html classes omitted for brevity, see lib/helpers/defaults.js */</style>
-head>
-ody>
-<div>
-  <h1>Sign-in Success</h1>
-  <p>Your sign-in ${clientName ? `with ${clientName}` : ''} was successful, you can now close this page.</p>
-</div>
-body>
-html>`;
+    <head>
+      <title>Sign-in Success</title>
+      <style>/* css and html classes omitted for brevity, see lib/helpers/defaults.js */</style>
+    </head>
+    <body>
+      <div>
+        <h1>Sign-in Success</h1>
+        <p>Your sign-in ${clientName ? `with ${clientName}` : ''} was successful, you can now close this page.</p>
+      </div>
+    </body>
+    </html>`;
 }
 ```
 
@@ -861,29 +861,29 @@ async function userCodeConfirmSource(ctx, form, client, deviceInfo, userCode) {
     clientId, clientName, clientUri, logoUri, policyUri, tosUri,
   } = ctx.oidc.client;
   ctx.body = `<!DOCTYPE html>
-ead>
-<title>Device Login Confirmation</title>
-<style>/* css and html classes omitted for brevity, see lib/helpers/defaults.js */</style>
-head>
-ody>
-<div>
-  <h1>Confirm Device</h1>
-  <p>
-    <strong>${clientName || clientId}</strong>
-    <br/><br/>
-    The following code should be displayed on your device<br/><br/>
-    <code>${userCode}</code>
-    <br/><br/>
-    <small>If you did not initiate this action, the code does not match or are unaware of such device in your possession please close this window or click abort.</small>
-  </p>
-  ${form}
-  <button autofocus type="submit" form="op.deviceConfirmForm">Continue</button>
-  <div>
-    <button type="submit" form="op.deviceConfirmForm" value="yes" name="abort">[ Abort ]</button>
-  </div>
-</div>
-body>
-html>`;
+    <head>
+      <title>Device Login Confirmation</title>
+      <style>/* css and html classes omitted for brevity, see lib/helpers/defaults.js */</style>
+    </head>
+    <body>
+      <div>
+        <h1>Confirm Device</h1>
+        <p>
+          <strong>${clientName || clientId}</strong>
+          <br/><br/>
+          The following code should be displayed on your device<br/><br/>
+          <code>${userCode}</code>
+          <br/><br/>
+          <small>If you did not initiate this action, the code does not match or are unaware of such device in your possession please close this window or click abort.</small>
+        </p>
+        ${form}
+        <button autofocus type="submit" form="op.deviceConfirmForm">Continue</button>
+        <div>
+          <button type="submit" form="op.deviceConfirmForm" value="yes" name="abort">[ Abort ]</button>
+        </div>
+      </div>
+    </body>
+    </html>`;
 }
 ```
 
@@ -913,19 +913,19 @@ async function userCodeInputSource(ctx, form, out, err) {
     msg = '<p>Enter the code displayed on your device</p>';
   }
   ctx.body = `<!DOCTYPE html>
-ead>
-<title>Sign-in</title>
-<style>/* css and html classes omitted for brevity, see lib/helpers/defaults.js */</style>
-head>
-ody>
-<div>
-  <h1>Sign-in</h1>
-  ${msg}
-  ${form}
-  <button type="submit" form="op.deviceInputForm">Continue</button>
-</div>
-body>
-html>`;
+    <head>
+      <title>Sign-in</title>
+      <style>/* css and html classes omitted for brevity, see lib/helpers/defaults.js */</style>
+    </head>
+    <body>
+      <div>
+        <h1>Sign-in</h1>
+        ${msg}
+        ${form}
+        <button type="submit" form="op.deviceInputForm">Continue</button>
+      </div>
+    </body>
+    </html>`;
 }
 ```
 
@@ -1006,34 +1006,34 @@ _**default value**_:
 ```js
 async function logoutPendingSource(ctx, frames, postLogoutRedirectUri) {
   ctx.body = `<!DOCTYPE html>
-ead>
-<title>Logout</title>
-<style>/* css and html classes omitted for brevity, see lib/helpers/defaults.js */</style>
-head>
-ody>
-${frames.join('')}
-<script>
-  var loaded = 0;
-  function redirect() {
-    window.location.replace("${postLogoutRedirectUri}");
-  }
-  function frameOnLoad() {
-    loaded += 1;
-    if (loaded === ${frames.length}) {
-      redirect();
-    }
-  }
-  Array.prototype.slice.call(document.querySelectorAll('iframe')).forEach(function (element) {
-    element.onload = frameOnLoad;
-  });
-  setTimeout(redirect, 2500);
-</script>
-<noscript>
-  Your browser does not support JavaScript or you've disabled it.<br/>
-  <a href="${postLogoutRedirectUri}">Continue</a>
-</noscript>
-body>
-html>`;
+    <head>
+      <title>Logout</title>
+      <style>/* css and html classes omitted for brevity, see lib/helpers/defaults.js */</style>
+    </head>
+    <body>
+      ${frames.join('')}
+      <script>
+        var loaded = 0;
+        function redirect() {
+          window.location.replace("${postLogoutRedirectUri}");
+        }
+        function frameOnLoad() {
+          loaded += 1;
+          if (loaded === ${frames.length}) {
+            redirect();
+          }
+        }
+        Array.prototype.slice.call(document.querySelectorAll('iframe')).forEach(function (element) {
+          element.onload = frameOnLoad;
+        });
+        setTimeout(redirect, 2500);
+      </script>
+      <noscript>
+        Your browser does not support JavaScript or you've disabled it.<br/>
+        <a href="${postLogoutRedirectUri}">Continue</a>
+      </noscript>
+    </body>
+    </html>`;
 }
 ```
 
@@ -1166,7 +1166,7 @@ function certificateAuthorized(ctx) {
 
 #### certificateBoundAccessTokens
 
-Enables section 3 & 4 Mutual TLS Client Certificate-Bound Tokens  
+Enables section 3 & 4 Mutual TLS Client Certificate-Bound Tokens by exposing the client's `tls_client_certificate_bound_access_tokens` metadata property.  
 
 
 _**default value**_:
@@ -1229,7 +1229,7 @@ function getCertificate(ctx) {
 
 #### selfSignedTlsClientAuth
 
-Enables section 2.2. Self-Signed Certificate Mutual TLS client authentication Method  
+Enables section 2.2. Self-Signed Certificate Mutual TLS client authentication method `self_signed_tls_client_auth` for use in the server's `tokenEndpointAuthMethods`, `introspectionEndpointAuthMethods`, and `revocationEndpointAuthMethods` configuration options.  
 
 
 _**default value**_:
@@ -1239,7 +1239,7 @@ false
 
 #### tlsClientAuth
 
-Enables section 2.1. PKI Mutual TLS client authentication method  
+Enables section 2.1. PKI Mutual TLS client authentication method `tls_client_auth` for use in the server's `tokenEndpointAuthMethods`, `introspectionEndpointAuthMethods`, and `revocationEndpointAuthMethods` configuration options.  
 
 
 _**default value**_:
@@ -1292,7 +1292,7 @@ Function used to generate random client identifiers during dynamic client regist
 
 _**default value**_:
 ```js
-function idFactory() {
+function idFactory(ctx) {
   return nanoid();
 }
 ```
@@ -1377,7 +1377,7 @@ Support modules:
   
 
 ```js
-const { verify } = require('jsonwebtoken');
+const { JWT: { verify }, JWK } = require('jose');
 const {
   errors: { InvalidSoftwareStatement, UnapprovedSoftwareStatement, InvalidClientMetadata },
 } = require('oidc-provider');
@@ -1394,14 +1394,15 @@ features.registration configuration:
      if (!('software_statement' in metadata)) {
        throw new InvalidClientMetadata('software_statement must be provided');
      }
-     const softwareStatementKey = await loadKeyForThisPolicy();
+     const softwareStatementKey = JWK.asKey(await loadKeyForThisPolicy());
      const statement = metadata.software_statement;
      let payload;
      try {
        payload = verify(value, softwareStatementKey, {
-         algorithms: ['RS256'],
+         algorithms: ['PS256'],
          issuer: 'Software Statement Issuer',
        });
+       // additional custom validation function
        if (!approvedStatement(value, payload)) {
          throw new UnapprovedSoftwareStatement('software_statement not approved for use');
        }
@@ -1431,7 +1432,7 @@ Function used to generate random client secrets during dynamic client registrati
 
 _**default value**_:
 ```js
-function secretFactory() {
+function secretFactory(ctx) {
   return base64url.encodeBuffer(crypto.randomBytes(64)); // 512 base64url random bits
 }
 ```
@@ -1678,7 +1679,7 @@ _**default value**_:
 
 ### features.secp256k1
 
-[html/draft-ietf-cose-webauthn-algorithms-03](https://tools.ietf.org/html/html/draft-ietf-cose-webauthn-algorithms-03) - Support for secp256k1 EC curve  
+[html/draft-ietf-cose-webauthn-algorithms-04](https://tools.ietf.org/html/html/draft-ietf-cose-webauthn-algorithms-04) - Support for secp256k1 EC curve  
 
 Enables the use of ES256K algorithm in `whitelistedJWA` configuration as well as having an EC JWK with secp256k1 curve in the provider keystore.  
 
@@ -2100,11 +2101,11 @@ function validator(key, value, metadata, ctx) {
 </summary><br>
 
 ```js
-const { verify } = require('jsonwebtoken');
+const { JWT: { verify }, JWK } = require('jose');
 const {
   errors: { InvalidSoftwareStatement, UnapprovedSoftwareStatement },
 } = require('oidc-provider');
-const softwareStatementKey = require('path/to/public/key');
+const softwareStatementKey = JWK.asKey(require('path/to/public/key'))
 {
   extraClientMetadata: {
     properties: ['software_statement'],
@@ -2117,9 +2118,10 @@ const softwareStatementKey = require('path/to/public/key');
         try {
           // extraClientMetadata.validator must be sync :sadface:
           payload = verify(value, softwareStatementKey, {
-            algorithms: ['RS256'],
+            algorithms: ['PS256'],
             issuer: 'Software Statement Issuer',
           });
+          // additional custom validation function
           if (!approvedStatement(value, payload)) {
             throw new UnapprovedSoftwareStatement('software_statement not approved for use');
           }
@@ -2748,19 +2750,19 @@ async function logoutSource(ctx, form) {
   // @param form - form source (id="op.logoutForm") to be embedded in the page and submitted by
   //   the End-User
   ctx.body = `<!DOCTYPE html>
-<head>
-<title>Logout Request</title>
-<style>/* css and html classes omitted for brevity, see lib/helpers/defaults.js */</style>
-</head>
-<body>
-<div>
-  <h1>Do you want to sign-out from ${ctx.host}?</h1>
-  ${form}
-  <button autofocus type="submit" form="op.logoutForm" value="yes" name="logout">Yes, sign me out</button>
-  <button type="submit" form="op.logoutForm">No, stay signed in</button>
-</div>
-</body>
-</html>`;
+    <head>
+      <title>Logout Request</title>
+      <style>/* css and html classes omitted for brevity, see lib/helpers/defaults.js */</style>
+    </head>
+    <body>
+      <div>
+        <h1>Do you want to sign-out from ${ctx.host}?</h1>
+        ${form}
+        <button autofocus type="submit" form="op.logoutForm" value="yes" name="logout">Yes, sign me out</button>
+        <button type="submit" form="op.logoutForm">No, stay signed in</button>
+      </div>
+    </body>
+    </html>`;
 }
 ```
 
@@ -2810,17 +2812,17 @@ async function postLogoutSuccessSource(ctx) {
   } = ctx.oidc.client || {}; // client is defined if the user chose to stay logged in with the OP
   const display = clientName || clientId;
   ctx.body = `<!DOCTYPE html>
-<head>
-<title>Sign-out Success</title>
-<style>/* css and html classes omitted for brevity, see lib/helpers/defaults.js */</style>
-</head>
-<body>
-<div>
-  <h1>Sign-out Success</h1>
-  <p>Your sign-out ${display ? `with ${display}` : ''} was successful.</p>
-</div>
-</body>
-</html>`;
+    <head>
+      <title>Sign-out Success</title>
+      <style>/* css and html classes omitted for brevity, see lib/helpers/defaults.js */</style>
+    </head>
+    <body>
+      <div>
+        <h1>Sign-out Success</h1>
+        <p>Your sign-out ${display ? `with ${display}` : ''} was successful.</p>
+      </div>
+    </body>
+    </html>`;
 }
 ```
 
@@ -2834,17 +2836,17 @@ _**default value**_:
 async function renderError(ctx, out, error) {
   ctx.type = 'html';
   ctx.body = `<!DOCTYPE html>
-<head>
-<title>oops! something went wrong</title>
-<style>/* css and html classes omitted for brevity, see lib/helpers/defaults.js */</style>
-</head>
-<body>
-<div>
-  <h1>oops! something went wrong</h1>
-  ${Object.entries(out).map(([key, value]) => `<pre><strong>${key}</strong>: ${htmlSafe(value)}</pre>`).join('')}
-</div>
-</body>
-</html>`;
+    <head>
+      <title>oops! something went wrong</title>
+      <style>/* css and html classes omitted for brevity, see lib/helpers/defaults.js */</style>
+    </head>
+    <body>
+      <div>
+        <h1>oops! something went wrong</h1>
+        ${Object.entries(out).map(([key, value]) => `<pre><strong>${key}</strong>: ${htmlSafe(value)}</pre>`).join('')}
+      </div>
+    </body>
+    </html>`;
 }
 ```
 
@@ -3147,7 +3149,7 @@ _**default value**_:
   'HS256', 'HS384', 'HS512',
   'RS256', 'RS384', 'RS512',
   'PS256', 'PS384', 'PS512',
-  'ES256', 'ES256K', ES384', 'ES512',
+  'ES256', 'ES256K', 'ES384', 'ES512',
   'EdDSA', // (note: EdDSA is only supported in node runtime >= 12.0.0)
 ]
 ```
@@ -3175,7 +3177,7 @@ _**default value**_:
 [
   'RS256', 'RS384', 'RS512',
   'PS256', 'PS384', 'PS512',
-  'ES256', 'ES256K', ES384', 'ES512',
+  'ES256', 'ES256K', 'ES384', 'ES512',
   'EdDSA', // (note: EdDSA is only supported in node runtime >= 12.0.0)
 ]
 ```
@@ -3267,7 +3269,7 @@ _**default value**_:
   'HS256', 'HS384', 'HS512',
   'RS256', 'RS384', 'RS512',
   'PS256', 'PS384', 'PS512',
-  'ES256', 'ES256K', ES384', 'ES512',
+  'ES256', 'ES256K', 'ES384', 'ES512',
   'EdDSA', // (note: EdDSA is only supported in node runtime >= 12.0.0)
 ]
 ```
@@ -3358,7 +3360,7 @@ _**default value**_:
   'HS256', 'HS384', 'HS512',
   'RS256', 'RS384', 'RS512',
   'PS256', 'PS384', 'PS512',
-  'ES256', 'ES256K', ES384', 'ES512',
+  'ES256', 'ES256K', 'ES384', 'ES512',
   'EdDSA', // (note: EdDSA is only supported in node runtime >= 12.0.0)
 ]
 ```
@@ -3389,7 +3391,7 @@ _**default value**_:
   'HS256', 'HS384', 'HS512',
   'RS256', 'RS384', 'RS512',
   'PS256', 'PS384', 'PS512',
-  'ES256', 'ES256K', ES384', 'ES512',
+  'ES256', 'ES256K', 'ES384', 'ES512',
   'EdDSA', // (note: EdDSA is only supported in node runtime >= 12.0.0)
 ]
 ```
@@ -3481,7 +3483,7 @@ _**default value**_:
   'HS256', 'HS384', 'HS512',
   'RS256', 'RS384', 'RS512',
   'PS256', 'PS384', 'PS512',
-  'ES256', 'ES256K', ES384', 'ES512',
+  'ES256', 'ES256K', 'ES384', 'ES512',
   'EdDSA', // (note: EdDSA is only supported in node runtime >= 12.0.0)
 ]
 ```
@@ -3511,7 +3513,7 @@ _**default value**_:
   'HS256', 'HS384', 'HS512',
   'RS256', 'RS384', 'RS512',
   'PS256', 'PS384', 'PS512',
-  'ES256', 'ES256K', ES384', 'ES512',
+  'ES256', 'ES256K', 'ES384', 'ES512',
   'EdDSA', // (note: EdDSA is only supported in node runtime >= 12.0.0)
 ]
 ```
@@ -3541,7 +3543,7 @@ _**default value**_:
   'HS256', 'HS384', 'HS512',
   'RS256', 'RS384', 'RS512',
   'PS256', 'PS384', 'PS512',
-  'ES256', 'ES256K', ES384', 'ES512',
+  'ES256', 'ES256K', 'ES384', 'ES512',
   'EdDSA', // (note: EdDSA is only supported in node runtime >= 12.0.0)
 ]
 ```
@@ -3633,7 +3635,7 @@ _**default value**_:
   'HS256', 'HS384', 'HS512',
   'RS256', 'RS384', 'RS512',
   'PS256', 'PS384', 'PS512',
-  'ES256', 'ES256K', ES384', 'ES512',
+  'ES256', 'ES256K', 'ES384', 'ES512',
   'EdDSA', // (note: EdDSA is only supported in node runtime >= 12.0.0)
 ]
 ```
@@ -3770,8 +3772,5 @@ because they are required properties, but they can be empty...
 ```
 
 
-[got-library]: https://github.com/sindresorhus/got
-[token-exchange]: https://tools.ietf.org/html/draft-ietf-oauth-token-exchange
-[defaults]: /lib/helpers/defaults.js
 [support-sponsor]: https://github.com/sponsors/panva
 [sponsor-auth0]: https://auth0.com/overview?utm_source=GHsponsor&utm_medium=GHsponsor&utm_campaign=oidc-provider&utm_content=auth

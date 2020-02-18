@@ -2,6 +2,79 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.20.3](https://github.com/panva/node-oidc-provider/compare/v6.20.2...v6.20.3) (2020-02-14)
+
+
+### Bug Fixes
+
+* allow opt-in refresh_token grant without offline_access as in 5.x ([b67a3a6](https://github.com/panva/node-oidc-provider/commit/b67a3a686efa6847d47a6ed18009958ab3b7bc3b)), closes [#647](https://github.com/panva/node-oidc-provider/issues/647)
+
+
+
+## [6.20.2](https://github.com/panva/node-oidc-provider/compare/v6.20.1...v6.20.2) (2020-02-11)
+
+
+### Bug Fixes
+
+* **typescript:** remove @types/node from runtime dependencies ([55a5074](https://github.com/panva/node-oidc-provider/commit/55a50740db9c07104d71cae62afd2831ff02b6b1)), closes [#646](https://github.com/panva/node-oidc-provider/issues/646)
+
+
+
+## [6.20.1](https://github.com/panva/node-oidc-provider/compare/v6.20.0...v6.20.1) (2020-02-04)
+
+
+### Bug Fixes
+
+* `interaction.started` listener second argument type fixed ([2fe67a9](https://github.com/panva/node-oidc-provider/commit/2fe67a96a77220cb70c4b38dd6a8d5ee894e13aa)), closes [#643](https://github.com/panva/node-oidc-provider/issues/643)
+
+
+
+# [6.20.0](https://github.com/panva/node-oidc-provider/compare/v6.19.2...v6.20.0) (2020-01-31)
+
+
+### Features
+
+* allow koa context argument in idFactory and secretFactory ([76aa942](https://github.com/panva/node-oidc-provider/commit/76aa94277653cc62933726680deb28261377d9bd)), closes [#455](https://github.com/panva/node-oidc-provider/issues/455)
+
+
+
+## [6.19.2](https://github.com/panva/node-oidc-provider/compare/v6.19.1...v6.19.2) (2020-01-25)
+
+
+### Bug Fixes
+
+* set samesite compatibility cookie as transient when the session is ([1257164](https://github.com/panva/node-oidc-provider/commit/1257164acdd5d2a4ddaf38f4ec5ef06a969fe0ed)), closes [#636](https://github.com/panva/node-oidc-provider/issues/636)
+
+
+
+## [6.19.1](https://github.com/panva/node-oidc-provider/compare/v6.19.0...v6.19.1) (2020-01-25)
+
+
+### Bug Fixes
+
+* allow ECDH-ES with AES_CBC_HMAC_SHA2 key sizes larger than 256 bits ([a65e9c4](https://github.com/panva/node-oidc-provider/commit/a65e9c4b11a8577761b9fdabe58a5119f04ef3eb))
+
+
+
+# [6.19.0](https://github.com/panva/node-oidc-provider/compare/v6.18.2...v6.19.0) (2020-01-23)
+
+
+### Features
+
+* allow overloading prototype for comparing client secrets ([eec36eb](https://github.com/panva/node-oidc-provider/commit/eec36eb7b160593ac2cf7a5d2b69a00e45542e50)), closes [#631](https://github.com/panva/node-oidc-provider/issues/631)
+
+
+
+## [6.18.2](https://github.com/panva/node-oidc-provider/compare/v6.18.1...v6.18.2) (2020-01-16)
+
+
+### Bug Fixes
+
+* number of default should-change notices using a wrong property ([8e51724](https://github.com/panva/node-oidc-provider/commit/8e5172481181e9b113d7bca20654b9dc230b6d1b))
+* principal-change triggered logout fixes ([fa860cf](https://github.com/panva/node-oidc-provider/commit/fa860cfbdaaf3ca9ab46117d1d2673593724f3f3)), closes [#628](https://github.com/panva/node-oidc-provider/issues/628) [#600](https://github.com/panva/node-oidc-provider/issues/600)
+
+
+
 ## [6.18.1](https://github.com/panva/node-oidc-provider/compare/v6.18.0...v6.18.1) (2020-01-07)
 
 

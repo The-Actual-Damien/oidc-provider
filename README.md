@@ -49,13 +49,13 @@ The following draft specifications are implemented by oidc-provider.
 - [OpenID Connect Back-Channel Logout 1.0 - draft 04][backchannel-logout]
 - [OpenID Connect Front-Channel Logout 1.0 - draft 02][frontchannel-logout]
 - [OpenID Connect Session Management 1.0 - draft 28][session-management]
-- [JWS ES256K / JWK secp256k1 JOSE support - draft 03][secp256k1]
+- [JWS ES256K / JWK secp256k1 JOSE support - draft 04][secp256k1]
 
 Updates to draft specification versions are released as MINOR library versions,
 if you utilize these specification implementations consider using the tilde `~` operator in your
 package.json since breaking changes may be introduced as part of these version updates. Alternatively
-[acknowledge](https://github.com/panva/node-oidc-provider/tree/master/docs/README.md#features) the version and
-be notified of breaking changes as part of your CI.
+[acknowledge](/docs/README.md#features) the version and be notified of breaking changes as part of
+your CI.
 
 Missing a feature? - If it wasn't already discussed before, [ask for it][suggest-feature].  
 Found a bug? - [report it][bug].
@@ -180,4 +180,4 @@ See the list of available emitted [event names](/docs/events.md) and their descr
 [jwt-at]: https://tools.ietf.org/html/draft-ietf-oauth-access-token-jwt-03
 [support-sponsor]: https://github.com/sponsors/panva
 [par]: https://tools.ietf.org/html/draft-ietf-oauth-par-00
-[secp256k1]: https://tools.ietf.org/html/draft-ietf-cose-webauthn-algorithms-03
+[secp256k1]: https://tools.ietf.org/html/draft-ietf-cose-webauthn-algorithms-04
