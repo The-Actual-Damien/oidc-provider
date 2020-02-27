@@ -1251,7 +1251,7 @@ false
 
 ### features.pushedAuthorizationRequests
 
-[draft-ietf-oauth-par-00](https://tools.ietf.org/html/draft-ietf-oauth-par-00) - OAuth 2.0 Pushed Authorization Requests  
+[draft-ietf-oauth-par-01](https://tools.ietf.org/html/draft-ietf-oauth-par-01) - OAuth 2.0 Pushed Authorization Requests  
 
 Enables the use `pushed_authorization_request_endpoint` defined by the Pushed Authorization Requests draft.   
   
@@ -1679,7 +1679,7 @@ _**default value**_:
 
 ### features.secp256k1
 
-[html/draft-ietf-cose-webauthn-algorithms-04](https://tools.ietf.org/html/html/draft-ietf-cose-webauthn-algorithms-04) - Support for secp256k1 EC curve  
+[html/draft-ietf-cose-webauthn-algorithms-05](https://tools.ietf.org/html/html/draft-ietf-cose-webauthn-algorithms-05) - Support for secp256k1 EC curve  
 
 Enables the use of ES256K algorithm in `whitelistedJWA` configuration as well as having an EC JWK with secp256k1 curve in the provider keystore.  
 
@@ -3086,8 +3086,8 @@ _**default value**_:
 
 ```js
 [
-  // asymmetric RSAES based (note: RSA-OAEP-256 is only supported in node runtime >= 12.9.0)
-  'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5',
+  // asymmetric RSAES based (note: RSA-OAEP-* is only supported in node runtime >= 12.9.0)
+  'RSA-OAEP', 'RSA-OAEP-256', 'RSA-OAEP-384', 'RSA-OAEP-512', 'RSA1_5',
   // asymmetric ECDH-ES based
   'ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW',
   // symmetric AES key wrapping
@@ -3205,8 +3205,8 @@ _**default value**_:
 
 ```js
 [
-  // asymmetric RSAES based (note: RSA-OAEP-256 is only supported in node runtime >= 12.9.0)
-  'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5',
+  // asymmetric RSAES based (note: RSA-OAEP-* is only supported in node runtime >= 12.9.0)
+  'RSA-OAEP', 'RSA-OAEP-256', 'RSA-OAEP-384', 'RSA-OAEP-512', 'RSA1_5',
   // asymmetric ECDH-ES based
   'ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW',
   // symmetric AES key wrapping
@@ -3297,8 +3297,8 @@ _**default value**_:
 
 ```js
 [
-  // asymmetric RSAES based (note: RSA-OAEP-256 is only supported in node runtime >= 12.9.0)
-  'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5',
+  // asymmetric RSAES based (note: RSA-OAEP-* is only supported in node runtime >= 12.9.0)
+  'RSA-OAEP', 'RSA-OAEP-256', 'RSA-OAEP-384', 'RSA-OAEP-512', 'RSA1_5',
   // asymmetric ECDH-ES based
   'ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW',
   // symmetric AES key wrapping
@@ -3419,8 +3419,8 @@ _**default value**_:
 
 ```js
 [
-  // asymmetric RSAES based (note: RSA-OAEP-256 is only supported in node runtime >= 12.9.0)
-  'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5',
+  // asymmetric RSAES based (note: RSA-OAEP-* is only supported in node runtime >= 12.9.0)
+  'RSA-OAEP', 'RSA-OAEP-256', 'RSA-OAEP-384', 'RSA-OAEP-512', 'RSA1_5',
   // asymmetric ECDH-ES based
   'ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW',
   // symmetric AES key wrapping
@@ -3571,8 +3571,8 @@ _**default value**_:
 
 ```js
 [
-  // asymmetric RSAES based (note: RSA-OAEP-256 is only supported in node runtime >= 12.9.0)
-  'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5',
+  // asymmetric RSAES based (note: RSA-OAEP-* is only supported in node runtime >= 12.9.0)
+  'RSA-OAEP', 'RSA-OAEP-256', 'RSA-OAEP-384', 'RSA-OAEP-512', 'RSA1_5',
   // asymmetric ECDH-ES based
   'ECDH-ES', 'ECDH-ES+A128KW', 'ECDH-ES+A192KW', 'ECDH-ES+A256KW',
   // symmetric AES key wrapping

@@ -1,6 +1,6 @@
 {
   "name": "@santander/oidc-provider",
-  "version": "1.0.0-beta.18",
+  "version": "1.0.0-beta.19",
   "description": "OAuth 2.0 Authorization Server implementation for Node.js with OpenID Connect",
   "keywords": [
     "auth",
@@ -52,7 +52,7 @@
     "debug": "^4.1.1",
     "ejs": "^3.0.1",
     "got": "^9.6.0",
-    "jose": "^1.22.2",
+    "jose": "^1.23.0",
     "jsesc": "^2.5.2",
     "koa": "^2.11.0",
     "koa-compose": "^4.1.0",
@@ -71,7 +71,7 @@
     "chai": "^4.2.0",
     "clear-module": "^4.0.0",
     "connect": "^3.7.0",
-    "dtslint": "^2.0.5",
+    "dtslint": "^3.0.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.20.1",
@@ -86,10 +86,10 @@
     "koa-router": "^7.4.0",
     "mocha": "^7.0.1",
     "moment": "^2.24.0",
-    "nock": "^11.8.2",
+    "nock": "^12.0.1",
     "nyc": "^15.0.0",
     "paseto": "^1.0.5",
-    "sinon": "^8.1.1",
+    "sinon": "^9.0.0",
     "supertest": "^4.0.2",
     "timekeeper": "^2.2.0"
   },

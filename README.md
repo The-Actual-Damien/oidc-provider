@@ -43,13 +43,13 @@ The following draft specifications are implemented by oidc-provider.
 - [OAuth 2.0 Demonstration of Proof-of-Possession at the Application Layer (DPoP) - individual draft 03][dpop]
 - [OAuth 2.0 JWT Secured Authorization Request (JAR)][jar]
 - [OAuth 2.0 Mutual TLS Client Authentication and Certificate Bound Access Tokens (MTLS) - draft 17][mtls]
-- [OAuth 2.0 Pushed Authorization Requests - draft 00][par]
+- [OAuth 2.0 Pushed Authorization Requests - draft 01][par]
 - [OAuth 2.0 Resource Indicators - draft 08][resource-indicators]
 - [OAuth 2.0 Web Message Response Mode - individual draft 00][wmrm]
 - [OpenID Connect Back-Channel Logout 1.0 - draft 04][backchannel-logout]
 - [OpenID Connect Front-Channel Logout 1.0 - draft 02][frontchannel-logout]
 - [OpenID Connect Session Management 1.0 - draft 28][session-management]
-- [JWS ES256K / JWK secp256k1 JOSE support - draft 04][secp256k1]
+- [JWS ES256K / JWK secp256k1 JOSE support - draft 05][secp256k1]
 
 Updates to draft specification versions are released as MINOR library versions,
 if you utilize these specification implementations consider using the tilde `~` operator in your
@@ -179,5 +179,5 @@ See the list of available emitted [event names](/docs/events.md) and their descr
 [jarm]: https://openid.net/specs/openid-financial-api-jarm-wd-02.html
 [jwt-at]: https://tools.ietf.org/html/draft-ietf-oauth-access-token-jwt-03
 [support-sponsor]: https://github.com/sponsors/panva
-[par]: https://tools.ietf.org/html/draft-ietf-oauth-par-00
-[secp256k1]: https://tools.ietf.org/html/draft-ietf-cose-webauthn-algorithms-04
+[par]: https://tools.ietf.org/html/draft-ietf-oauth-par-01
+[secp256k1]: https://tools.ietf.org/html/draft-ietf-cose-webauthn-algorithms-05

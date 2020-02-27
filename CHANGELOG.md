@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.21.1](https://github.com/panva/node-oidc-provider/compare/v6.21.0...v6.21.1) (2020-02-27)
+
+
+### Bug Fixes
+
+* check that session account is a string ([e1eb211](https://github.com/panva/node-oidc-provider/commit/e1eb211618a2f9f2470d8cad00660805c7dc88a2)), closes [#650](https://github.com/panva/node-oidc-provider/issues/650) [#655](https://github.com/panva/node-oidc-provider/issues/655)
+
+
+
+# [6.21.0](https://github.com/panva/node-oidc-provider/compare/v6.20.3...v6.21.0) (2020-02-18)
+
+
+### Features
+
+* add support for RSA-OAEP-384 and RSA-OAEP-512 JWE algorithms ([c669bd1](https://github.com/panva/node-oidc-provider/commit/c669bd1d71a1c2b25e9f04876d8af980730f128e))
+
+
+
 ## [6.20.3](https://github.com/panva/node-oidc-provider/compare/v6.20.2...v6.20.3) (2020-02-14)
 
 
