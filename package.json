@@ -1,5 +1,5 @@
 {
-  "name": "@santander/oidc-provider",
+  "name": "@gruposantander/oidc-provider",
   "version": "1.0.0-beta.20",
   "description": "OAuth 2.0 Authorization Server implementation for Node.js with OpenID Connect",
   "keywords": [
@@ -114,6 +114,6 @@
     }
   },
   "publishConfig": {
-    "registry": "https://nexus.almuk.santanderuk.corp/repository/npm-releases/"
+    "registry": "https://npm.pkg.github.com/"
   }
 }
