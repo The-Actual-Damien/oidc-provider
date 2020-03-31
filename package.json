@@ -28,7 +28,7 @@
     "server"
   ],
   "homepage": "https://github.com/panva/node-oidc-provider",
-  "repository": "panva/node-oidc-provider",
+  "repository": "gruposantander/oidc-provider",
   "license": "MIT",
   "author": "Filip Skokan <panva.ip@gmail.com>",
   "files": [
